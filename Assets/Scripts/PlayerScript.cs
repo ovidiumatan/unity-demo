@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
@@ -16,6 +17,8 @@ public class PlayerScript : MonoBehaviour
     public AudioSource runSound;
     public AudioSource jumpSound;
     private AnimationState state;
+    private static int coins = 0;
+    public TextMeshProUGUI scoreUI;
     // Start is called before the first frame update
 
     enum AnimationState
@@ -36,13 +39,20 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        scoreUI.text = (coins).ToString();
         
     }
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        isJumping = false;
-
+        if (collision.gameObject.name.StartsWith("Coin"))
+        {
+            print("found a coin:"+coins);
+            coins++;
+            collision.gameObject.SetActive(false);
+        }
+            isJumping = false;
+        
     }
 
     public void OnCollisionExit2D(Collision2D collision)
